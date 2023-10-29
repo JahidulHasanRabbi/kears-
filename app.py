@@ -57,6 +57,8 @@ def predict():
     value=np.argmax(prediction)
     move_name=mapper(value)
     print(move_name)
+
+    os.remove(img_path)
     
     return jsonify({'class': move_name})
 
