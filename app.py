@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, json, Response
-from tensorflow import keras
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from tensorflow.keras.applications.densenet import preprocess_input, decode_predictions
+from tensorflow.keras.models import load_model  # Add this import
+
 import numpy as np
 import os
 
@@ -20,7 +20,7 @@ def mapper(value):
 app = Flask(__name__)
 
 # Load the Keras model
-model = keras.models.load_model('model\DenseNet201.h5')
+model = load_model('model/DenseNet201.h5')
 
 
 @app.route('/')
@@ -56,10 +56,9 @@ def predict():
     prediction=model.predict(prediction_image)
     value=np.argmax(prediction)
     move_name=mapper(value)
+    print(move_name)
     
-    respons = Response({"Predication": move_name}, status=200, mimetype='json')
-
-    return respons
+    return jsonify({'class': move_name})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
