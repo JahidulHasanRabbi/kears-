@@ -6,7 +6,12 @@ import numpy as np
 import os
 
 
-Name = ['bacterial_leaf_blight', 'brown_spot', 'healthy', 'leaf_blast', 'leaf_scald', 'narrow_brown_spot']
+Name = ['Bacterial Leaf Blight', 
+        'Brown Spot',
+        'Healthy', 
+        'Leaf Blast', 
+        'Leaf Scald', 
+        'Narrow Brown Spot']
 
 N=[]
 for i in range(len(Name)):
@@ -25,8 +30,8 @@ model = load_model('model/DenseNet201.h5')
 
 @app.route('/')
 def hello():
-    resphone = Response("Hello World!", status=200, mimetype='json')
-    return resphone
+    data = {"meg": "hello world"}
+    return jsonify(data)
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -47,8 +52,9 @@ def predict():
     img_path = os.path.join(upload_folder, uploaded_file.filename)
     uploaded_file.save(img_path)
 
+    image_size = (224, 224)
     # Preprocess the image
-    image = load_img(img_path)
+    image = load_img(img_path, target_size=image_size)
     image=img_to_array(image)
     image=image/255.0
     prediction_image=np.array(image)
