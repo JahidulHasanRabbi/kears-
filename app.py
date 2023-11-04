@@ -62,10 +62,9 @@ def predict():
     value=np.argmax(prediction)
     move_name=mapper(value)
     print(move_name)
-
-    os.remove(img_path)
     
     return jsonify({'class': move_name})
+    os.remove(img_path)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
