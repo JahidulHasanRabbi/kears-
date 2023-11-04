@@ -68,6 +68,12 @@
             border-radius: 5px;
         }
 
+        .loading-indicator {
+            display: none;
+            margin-top: 10px;
+            color: #FFA500;
+        }
+
         @keyframes appear {
             from {
                 opacity: 0;
@@ -89,6 +95,7 @@
             </div>
             <br>
             <button class="prediction-button" type="button" onclick="predictImage()">Predict</button>
+            <div class="loading-indicator" id="loadingIndicator">Loading...</div>
             <div class="prediction-result" id="predictionResult"></div>
         </form>
     </div>
@@ -98,6 +105,7 @@
         const uploadedImage = document.getElementById("uploadedImage");
         const predictForm = document.getElementById("predictForm");
         const predictionResult = document.getElementById("predictionResult");
+        const loadingIndicator = document.getElementById("loadingIndicator");
 
         fileInput.addEventListener("change", function (event) {
             const file = event.target.files[0];
@@ -112,6 +120,8 @@
         });
 
         async function predictImage() {
+            loadingIndicator.style.display = "block"; // Show loading indicator
+
             const formData = new FormData(predictForm);
 
             try {
@@ -126,6 +136,8 @@
                 console.error("Prediction error:", error);
                 predictionResult.textContent = "Prediction failed. Please try again.";
                 predictionResult.style.display = "block";
+            } finally {
+                loadingIndicator.style.display = "none"; // Hide loading indicator
             }
         }
     </script>
