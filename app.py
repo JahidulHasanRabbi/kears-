@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, json, Response
+from flask import Flask, request, jsonify, render_template
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.models import load_model  # Add this import
 
@@ -30,8 +30,7 @@ model = load_model('model/DenseNet201.h5')
 
 @app.route('/')
 def hello():
-    data = {"meg": "hello world"}
-    return jsonify(data)
+    return render_template('predict.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
